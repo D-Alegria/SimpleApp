@@ -1,15 +1,19 @@
+import 'package:application_test_1/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 final String logo = "assets/logo.svg";
+final String backArrow = "assets/arrow.svg";
 final String cards = "assets/cards-icon.svg";
+final String add = "assets/add.svg";
 final String history = "assets/history.svg";
 final String account = "assets/account.svg";
 final String freeze = "assets/freeze.svg";
 final String withdraw = "assets/withdraw.svg";
 final String visa = "assets/visa.svg";
+final String eye = "assets/eye.svg";
 final String up = "assets/incoming-transaction.svg";
 final String down = "assets/outbound-transaction.svg";
 
@@ -20,125 +24,121 @@ void main() {
 class TestApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle(
-          statusBarColor: Colors.white,
-          statusBarBrightness: Brightness.light,
-          statusBarIconBrightness: Brightness.dark,
-        ),
-        child: Scaffold(
-          appBar: AppBar(
-            elevation: 0,
-            backgroundColor: Colors.white,
-            brightness: Brightness.light,
-            leading: IconButton(
-              icon: const Icon(
-                Icons.arrow_back,
-                color: Colors.black,
-              ),
-              onPressed: () {},
-            ),
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        statusBarColor: Colors.white,
+        statusBarBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.dark,
+      ),
+      child: MaterialApp(
+        home: CardPage(),
+      ),
+    );
+  }
+}
+
+class CardPage extends StatelessWidget {
+  const CardPage({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        brightness: Brightness.light,
+        leading: IconButton(
+          icon: SvgPicture.asset(
+            backArrow,
+            width: SizeConfig.textSize(context, 8),
+            color: Color(0xFF13073E),
+            semanticsLabel: 'Home',
           ),
-          backgroundColor: Colors.white,
-          body: Container(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+          onPressed: () {},
+        ),
+      ),
+      backgroundColor: Colors.white,
+      body: Stack(
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(
+                horizontal: SizeConfig.xMargin(context, 5.5)),
             child: ListView(
               children: [
                 Header(),
-                SizedBox(height: 15),
+                SizedBox(height: SizeConfig.yMargin(context, 5)),
                 Card(),
-                SizedBox(height: 20),
+                SizedBox(height: SizeConfig.yMargin(context, 3)),
                 Buttons(),
-                SizedBox(height: 20),
+                SizedBox(height: SizeConfig.yMargin(context, 4)),
                 TransactionList(),
+                SizedBox(height: SizeConfig.yMargin(context, 15)),
               ],
             ),
           ),
-          bottomNavigationBar: BottomNavigationBar(
-            selectedLabelStyle: TextStyle(
-              fontSize: 10,
-              height: 2,
-              fontWeight: FontWeight.w500,
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                  vertical: SizeConfig.yMargin(context, 2)),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15),
+                  topRight: Radius.circular(15),
+                ),
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.5),
+                    offset: Offset(2, 2),
+                    blurRadius: 15,
+                    spreadRadius: 1,
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  buildIcon(context, Color(0xFF13073E).withOpacity(0.3), logo,
+                      "Home"),
+                  buildIcon(context, Color(0xFF13073E), cards, "Cards"),
+                  buildIcon(context, Color(0xFF13073E).withOpacity(0.3),
+                      history, "History"),
+                  buildIcon(context, Color(0xFF13073E).withOpacity(0.3),
+                      account, "Account"),
+                ],
+              ),
             ),
-            unselectedLabelStyle: TextStyle(
-              fontSize: 10,
-              height: 2,
-              fontWeight: FontWeight.w500,
-            ),
-            backgroundColor: Colors.white,
-            selectedFontSize: 10,
-            unselectedFontSize: 10,
-            showUnselectedLabels: true,
-            type: BottomNavigationBarType.fixed,
-            selectedItemColor: Color(0xFF13073e),
-            unselectedItemColor: Color(0xFF13073E).withOpacity(0.3),
-            items: [
-              BottomNavigationBarItem(
-                label: "Home",
-                icon: SvgPicture.asset(
-                  logo,
-                  height: 20,
-                  color: Color(0xFF13073E).withOpacity(0.3),
-                  semanticsLabel: 'Home',
-                ),
-                activeIcon: SvgPicture.asset(
-                  logo,
-                  height: 20,
-                  color: Color(0xFF13073E),
-                  semanticsLabel: 'Home Page',
-                ),
-              ),
-              BottomNavigationBarItem(
-                label: "Cards",
-                icon: SvgPicture.asset(
-                  cards,
-                  height: 20,
-                  color: Color(0xFF13073E).withOpacity(0.3),
-                  semanticsLabel: 'Home',
-                ),
-                activeIcon: SvgPicture.asset(
-                  cards,
-                  height: 20,
-                  color: Color(0xFF13073E),
-                  semanticsLabel: 'Home Page',
-                ),
-              ),
-              BottomNavigationBarItem(
-                label: "History",
-                icon: SvgPicture.asset(
-                  history,
-                  height: 20,
-                  color: Color(0xFF13073E).withOpacity(0.3),
-                  semanticsLabel: 'Home',
-                ),
-                activeIcon: SvgPicture.asset(
-                  history,
-                  height: 20,
-                  color: Color(0xFF13073E),
-                  semanticsLabel: 'Home Page',
-                ),
-              ),
-              BottomNavigationBarItem(
-                label: "Account",
-                icon: SvgPicture.asset(
-                  account,
-                  height: 20,
-                  color: Color(0xFF13073E).withOpacity(0.3),
-                  semanticsLabel: 'Home',
-                ),
-                activeIcon: SvgPicture.asset(
-                  account,
-                  height: 20,
-                  color: Color(0xFF13073E),
-                  semanticsLabel: 'Home Page',
-                ),
-              ),
-            ],
-            currentIndex: 1,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildIcon(
+      BuildContext context, Color color, String icon, String text) {
+    return Column(
+      children: [
+        SvgPicture.asset(
+          icon,
+          height: SizeConfig.textSize(context, 6),
+          color: color,
+          semanticsLabel: 'Home',
+        ),
+        SizedBox(height: SizeConfig.yMargin(context, 1)),
+        Text(
+          text,
+          style: GoogleFonts.rubik(
+            fontSize: SizeConfig.textSize(context, 4),
+            fontWeight: FontWeight.w500,
+            color: color,
           ),
         ),
-      ),
+      ],
     );
   }
 }
@@ -153,15 +153,16 @@ class Header extends StatelessWidget {
         Text(
           "My Dollar Card 💸",
           style: GoogleFonts.rubik(
-            fontSize: 30,
+            fontSize: SizeConfig.textSize(context, 7),
             fontWeight: FontWeight.w500,
           ),
         ),
         Container(
-          child: Icon(
-            Icons.add,
+          child: SvgPicture.asset(
+            add,
+            height: SizeConfig.textSize(context, 14),
             color: Colors.white,
-            size: 60,
+            semanticsLabel: 'Add',
           ),
           decoration: BoxDecoration(
             color: Color(0xFF13073e),
@@ -185,8 +186,11 @@ class Card extends StatelessWidget {
           Radius.circular(10),
         ),
       ),
-      height: 190,
-      padding: EdgeInsets.all(20),
+      height: SizeConfig.yMargin(context, 28),
+      padding: EdgeInsets.symmetric(
+        vertical: SizeConfig.yMargin(context, 3),
+        horizontal: SizeConfig.xMargin(context, 5),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -197,7 +201,7 @@ class Card extends StatelessWidget {
               Text(
                 "\$ 230.20",
                 style: GoogleFonts.rubik(
-                  fontSize: 30,
+                  fontSize: SizeConfig.textSize(context, 7.5),
                   fontWeight: FontWeight.w500,
                   color: Color(0xFFf0c12b),
                 ),
@@ -208,33 +212,33 @@ class Card extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 40),
+          SizedBox(height: SizeConfig.yMargin(context, 6.5)),
           Text(
             "4056 3679 2390 1232",
             style: GoogleFonts.rubik(
-              fontSize: 24,
+              fontSize: SizeConfig.textSize(context, 5.5),
               fontWeight: FontWeight.w500,
               color: Colors.white,
             ),
           ),
-          SizedBox(height: 14),
+          SizedBox(height: SizeConfig.yMargin(context, 2)),
           Row(
             children: [
               Expanded(
-                flex: 2,
+                flex: 3,
                 child: RichText(
                   text: TextSpan(
                     text: "CARD HOLDER",
                     style: GoogleFonts.rubik(
-                      fontSize: 8,
+                      fontSize: SizeConfig.textSize(context, 2),
                       color: Color(0xFFbfc5ff),
-                      height: 1.5,
+                      height: SizeConfig.textSize(context, 0.4),
                     ),
                     children: [
                       TextSpan(
                         text: "\nMBA UCHENNA",
                         style: GoogleFonts.rubik(
-                          fontSize: 12,
+                          fontSize: SizeConfig.textSize(context, 3.8),
                           color: Colors.white,
                         ),
                       ),
@@ -249,15 +253,15 @@ class Card extends StatelessWidget {
                   text: TextSpan(
                     text: "VALID THRU",
                     style: GoogleFonts.rubik(
-                      fontSize: 8,
+                      fontSize: SizeConfig.textSize(context, 2),
                       color: Color(0xFFbfc5ff),
-                      height: 1.5,
+                      height: SizeConfig.textSize(context, 0.4),
                     ),
                     children: [
                       TextSpan(
                         text: "\n05/22",
                         style: GoogleFonts.rubik(
-                          fontSize: 12,
+                          fontSize: SizeConfig.textSize(context, 3.8),
                           color: Colors.white,
                         ),
                       ),
@@ -267,7 +271,30 @@ class Card extends StatelessWidget {
               ),
               Expanded(
                 flex: 3,
-                child: Container(),
+                child: Container(
+                  margin: EdgeInsets.only(left: SizeConfig.xMargin(context, 7)),
+                  decoration: BoxDecoration(
+                    color: Color.fromRGBO(255, 255, 255, 0.1),
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                  ),
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(
+                        eye,
+                        height: SizeConfig.textSize(context, 10),
+                        color: Colors.white,
+                        semanticsLabel: 'Add',
+                      ),
+                      Text(
+                        "CSC",
+                        style: GoogleFonts.rubik(
+                          fontSize: SizeConfig.textSize(context, 3.8),
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ],
           )
@@ -284,23 +311,25 @@ class Buttons extends StatelessWidget {
       children: [
         Expanded(
           child: ButtonTheme(
-            height: 50,
+            height: SizeConfig.yMargin(context, 7),
             child: RaisedButton(
               onPressed: () {},
-              color: Color(0xFF13073e).withOpacity(0.1),
+              color: Color(0xFF13073e).withOpacity(0.05),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SvgPicture.asset(
                     freeze,
-                    height: 15,
-                    semanticsLabel: '',
+                    height: SizeConfig.textSize(context, 5),
+                    semanticsLabel: 'Freeze',
+                    color: Color(0xFF13073e).withOpacity(0.3),
                   ),
-                  SizedBox(width: 5),
+                  SizedBox(width: SizeConfig.xMargin(context, 2)),
                   Text(
                     "Freeze",
                     style: GoogleFonts.rubik(
-                      fontSize: 17,
+                      fontSize: SizeConfig.textSize(context, 4),
+                      fontWeight: FontWeight.w400,
                       color: Color(0xFF13073E),
                     ),
                   ),
@@ -313,26 +342,28 @@ class Buttons extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(width: 10),
+        SizedBox(width: SizeConfig.xMargin(context, 5)),
         Expanded(
           child: ButtonTheme(
-            height: 50,
+            height: SizeConfig.yMargin(context, 7),
             child: RaisedButton(
               onPressed: () {},
-              color: Color(0xFF13073e).withOpacity(0.1),
+              color: Color(0xFF13073e).withOpacity(0.05),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SvgPicture.asset(
                     withdraw,
-                    height: 15,
-                    semanticsLabel: '',
+                    height: SizeConfig.textSize(context, 5),
+                    semanticsLabel: 'withdraw',
+                    color: Color(0xFF13073e).withOpacity(0.3),
                   ),
-                  SizedBox(width: 5),
+                  SizedBox(width: SizeConfig.xMargin(context, 2)),
                   Text(
                     "Withdraw",
                     style: GoogleFonts.rubik(
-                      fontSize: 17,
+                      fontSize: SizeConfig.textSize(context, 4),
+                      fontWeight: FontWeight.w400,
                       color: Color(0xFF13073E),
                     ),
                   ),
@@ -354,7 +385,7 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 300,
+      height: SizeConfig.yMargin(context, 65),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -362,10 +393,11 @@ class TransactionList extends StatelessWidget {
           Text(
             "Dollar Card Transaction",
             style: GoogleFonts.rubik(
-              fontSize: 15,
+              fontSize: SizeConfig.textSize(context, 4),
               color: Color.fromRGBO(19, 7, 62, 0.3),
             ),
           ),
+          SizedBox(height: SizeConfig.yMargin(context, 2)),
           Expanded(
             child: ListView.separated(
               itemBuilder: (context, index) {
@@ -373,26 +405,18 @@ class TransactionList extends StatelessWidget {
                     ? Container(
                         child: Row(
                           children: [
-                            Container(
-                              child: SvgPicture.asset(
-                                up,
-                                semanticsLabel: 'Home',
-                              ),
-                              decoration: BoxDecoration(
-                                color: Color(0xFF6ab04c).withOpacity(0.2),
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(10),
-                                ),
-                              ),
-                              padding: EdgeInsets.all(10),
+                            SvgPicture.asset(
+                              up,
+                              semanticsLabel: 'Home',
+                              height: SizeConfig.textSize(context, 13),
                             ),
-                            SizedBox(width: 10),
+                            SizedBox(width: SizeConfig.xMargin(context, 4)),
                             Expanded(
                               child: RichText(
                                 text: TextSpan(
                                     text: "Card Funding",
                                     style: GoogleFonts.rubik(
-                                      fontSize: 20,
+                                      fontSize: SizeConfig.textSize(context, 5),
                                       fontWeight: FontWeight.w500,
                                       color: Color(0xFF150640),
                                     ),
@@ -400,7 +424,8 @@ class TransactionList extends StatelessWidget {
                                       TextSpan(
                                         text: "\n\$23.99 • 12th May",
                                         style: GoogleFonts.rubik(
-                                          fontSize: 14,
+                                          fontSize:
+                                              SizeConfig.textSize(context, 4.2),
                                           color: Color.fromRGBO(23, 4, 65, 0.5),
                                         ),
                                       ),
@@ -412,36 +437,28 @@ class TransactionList extends StatelessWidget {
                         decoration: BoxDecoration(
                           border: Border(
                             bottom: BorderSide(
-                              color: Colors.black.withOpacity(0.1),
+                              color: Color.fromRGBO(191, 197, 255, 0.2),
                               width: 2,
                             ),
                           ),
                         ),
-                        height: 90,
+                        height: SizeConfig.yMargin(context, 10),
                       )
                     : Container(
                         child: Row(
                           children: [
-                            Container(
-                              child: SvgPicture.asset(
-                                down,
-                                semanticsLabel: 'Home',
-                              ),
-                              decoration: BoxDecoration(
-                                color: Color(0xFFe02020).withOpacity(0.2),
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(10),
-                                ),
-                              ),
-                              padding: EdgeInsets.all(10),
+                            SvgPicture.asset(
+                              down,
+                              semanticsLabel: 'Home',
+                              height: SizeConfig.textSize(context, 13),
                             ),
-                            SizedBox(width: 10),
+                            SizedBox(width: SizeConfig.xMargin(context, 4)),
                             Expanded(
                               child: RichText(
                                 text: TextSpan(
                                     text: "Apple/US Monthly Bill",
                                     style: GoogleFonts.rubik(
-                                      fontSize: 20,
+                                      fontSize: SizeConfig.textSize(context, 5),
                                       fontWeight: FontWeight.w500,
                                       color: Color(0xFF150640),
                                     ),
@@ -449,7 +466,8 @@ class TransactionList extends StatelessWidget {
                                       TextSpan(
                                         text: "\n\$0.99 • 9th May",
                                         style: GoogleFonts.rubik(
-                                          fontSize: 14,
+                                          fontSize:
+                                              SizeConfig.textSize(context, 4.2),
                                           color: Color.fromRGBO(23, 4, 65, 0.5),
                                         ),
                                       ),
@@ -461,18 +479,19 @@ class TransactionList extends StatelessWidget {
                         decoration: BoxDecoration(
                           border: Border(
                             bottom: BorderSide(
-                              color: Colors.black.withOpacity(0.1),
+                              color: Color.fromRGBO(191, 197, 255, 0.2),
                               width: 2,
                             ),
                           ),
                         ),
-                        height: 90,
+                        height: SizeConfig.yMargin(context, 10),
                       );
               },
               separatorBuilder: (context, index) => SizedBox(height: 5),
-              itemCount: 3,
+              itemCount: 5,
             ),
           ),
+          SizedBox(height: SizeConfig.yMargin(context, 2)),
           Align(
             alignment: Alignment.center,
             child: Text(

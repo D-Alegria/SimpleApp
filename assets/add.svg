@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="75px" height="75px" viewBox="0 0 75 75" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>66F8E2A0-598D-45FB-A7FE-DC4052C4186E</title>
+    <defs>
+        <filter x="-11.0%" y="-13.6%" width="122.0%" height="127.2%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="10" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.1 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="Cards" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="cards" transform="translate(-319.000000, -91.000000)" fill="#FFFFFF" fill-rule="nonzero">
+            <g id="CARD" filter="url(#filter-1)" transform="translate(30.000000, 101.000000)">
+                <g id="Group-5" transform="translate(298.000000, 0.000000)">
+                    <polygon id="Path" points="48 26.2142857 29.7857143 26.2142857 29.7857143 8 27.2142857 8 27.2142857 26.2142857 9 26.2142857 9 28.7857143 27.2142857 28.7857143 27.2142857 47 29.7857143 47 29.7857143 28.7857143 48 28.7857143"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
