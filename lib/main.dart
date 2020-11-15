@@ -160,7 +160,7 @@ class Header extends StatelessWidget {
         Container(
           child: SvgPicture.asset(
             add,
-            height: SizeConfig.textSize(context, 14),
+            height: SizeConfig.textSize(context, 18),
             color: Colors.white,
             semanticsLabel: 'Add',
           ),
